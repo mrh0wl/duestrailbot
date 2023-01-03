@@ -1,4 +1,4 @@
-# Telegram Voice-Chat Bot [PyTGCalls] [![Mentioned in Awesome Telegram Calls](https://awesome.re/mentioned-badge-flat.svg)](https://github.com/tgcalls/awesome-tgcalls)
+# Telegram Subscription Bot Tracker
 
 Telegram Subscription Streaming/Gaming platform bot to get your money administered.
 
