@@ -1,0 +1,70 @@
+en:
+  title: |+
+    **ℹ️ Information about %{platform}**;
+  add: ➕ Add to list
+  netflix_short: TV/Movie Streaming Platform
+  netflix_description:
+    Netflix is a subscription-based streaming service that allows members
+    to watch TV shows and movies on an internet-connected device. Depending on
+    your plan, you can also download TV shows and movies to your iOS, Android,
+    or Windows 10 device and watch without an internet connection.
+  gamepass_short: Video Game Subscription Platform
+  gamepass_description:
+    Xbox Game Pass and PC Game Pass are video game subscription services granting
+    users access to a rotating catalog of games from various publishers and other
+    premium services, including Xbox Live Gold and EA Play, for a single monthly subscription.
+  playplus_short: Video Game Subscription Platform
+  playplus_description:
+    PlayStation Plus is a monthly subscription service that enables online,
+    multiplayer play for PS4 and PS5 games. It is required to play the vast
+    majority of games online - only some free-to-play titles are exempt.
+  spotify_short: Music/Podcast Streaming Platform
+  spotify_description:
+    Spotify is a digital music, podcast, and video service that gives you access
+    to millions of songs and other content from creators all over the world.
+    Basic functions such as playing music are totally free, but you can also
+    choose to upgrade to Spotify Premium.
+  twitch_short: Live/Video Streaming Platform
+  twitch_description:
+    Twitch is an American video live streaming service that focuses on video game
+    live streaming, including broadcasts of esports competitions, in addition to
+    offering music broadcasts, creative content, and "in real life" streams.
+  primevideo_short: TV/Movie Streaming Platform
+  primevideo_description:
+    Prime Video is an American subscription video on-demand over-the-top streaming
+    and rental service of Amazon offered as a standalone service or as part of
+    Amazon's Prime subscription.
+es:
+  title: |+
+    **ℹ️ Informacion sobre %{platform}**
+  add: ➕ Añadir a lista
+  netflix_short: Plataforma de Streaming de TV/Películas
+  netflix_description:
+    Netflix es un servicio de transmisión por suscripción que permite a los miembros
+    ver programas de televisión y películas en un dispositivo conectado a Internet.
+    Según su plan, también puede descargar programas de TV y películas a su dispositivo
+    iOS, Android o Windows 10 y verlos sin conexión a Internet.
+  gamepass_short: Plataforma de Suscripción de videojuegos
+  gamepass_description:
+    Xbox Game Pass y PC Game Pass son servicios de suscripción de videojuegos que otorgan
+    a los usuarios acceso a un catálogo rotativo de juegos de varios editores y otros servicios
+    premium, incluidos Xbox Live Gold y EA Play, por una sola suscripción mensual.
+  playplus_short: Plataforma de Suscripción de videojuegos
+  playplus_description:
+    PlayStation Plus es un servicio de suscripción mensual que permite el juego multijugador
+    en línea para juegos de PS4 y PS5. Se requiere para jugar la gran mayoría de los juegos en línea;
+    solo algunos títulos gratuitos están exentos.
+  spotify_short: Plataforma de Streaming de Musica/Podcast
+  spotify_description:
+    Spotify es un servicio de música, podcasts y videos digitales que le brinda acceso a millones de
+    canciones y otro contenido de creadores de todo el mundo. Las funciones esenciales, como reproducir
+    música, son totalmente gratuitas, pero también puede optar por actualizar a Spotify Premium.
+  twitch_short: Plataforma de Streaming de Live/Video
+  twitch_description:
+    Twitch es un servicio estadounidense de transmisión de video en vivo que se enfoca en la transmisión
+    en vivo de videojuegos, incluidas transmisiones de competencias de deportes electrónicos, además de
+    ofrecer transmisiones de música, contenido creativo y transmisiones "en la vida real".
+  primevideo_short: Plataforma de Streaming de TV/Películas
+  primevideo_description:
+    Prime Video es un servicio de alquiler y transmisión over-the-top de video bajo demanda de suscripción
+    estadounidense de Amazon que se ofrece como un servicio independiente o como parte de la suscripción Prime de Amazon.

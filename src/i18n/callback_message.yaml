@@ -1,0 +1,114 @@
+en:
+  add_platform: |+
+    **➕ Add %{platform} to list**
+
+    How much you pay for this service?
+  started_content: |+
+    **ℹ️ Subscription date**
+
+    Write the date when you started the subscription to the service this month. You can use the following date format:
+    __**
+      DD-MM H:M, DD-MM H, DD-MM
+      DD/MM H:M, DD/MM H, DD/MM
+      DD|MM H:M, DD|MM H, DD|MM
+    **__
+  started_success: |+
+    **ℹ️ The date has been successfully saved**
+
+    __**(Optional)**__ Now, please write the months you have been using this service
+  started_success_button: ⏭️ Skip
+  started_failure: |+
+    **❌ Error saving the date**
+
+    The months and days should be numbers not letters. Please use the correct date format.
+  months_failure: |+
+    **❌ Error saving the months of use**
+
+    The value should be integer.
+      **E.g.** 5 -> __That represents 5 months of paid service__
+  sub_added: |+
+    **✅ %{platform} added to your list**
+
+    Do you want to do another action?
+  sub_edited: |+
+    **✅ %{platform} subscription successfully edited**
+
+    Do you want to do another action?
+  show_list: 📃 Show list
+  sub_resume_content: |+
+    ⚠️ Action started previously
+
+    Do you want to continue the previous task?
+  sub_resume: ⭐ Continue
+  sub_restart: 🔁 Restart
+  sub_exist: |+
+    **❌ %{platform} is already on the list**
+  sub_deleted: |+
+    **❌ %{platform} was deleted from the list**
+  cancel_content: |+
+    **❌ Task Canceled**
+
+    Thanks for using @duestrailbot
+    Do you want to search for another platform?
+  lazy_search: 🔎 Search platform
+  lazy_all: 👁️ Show platforms
+  cancel_delete: ⛔ Stop action
+  failure_button: 🔁 Try again
+  cancel_button: ❌ Cancel
+  not_available: This function isn't available now. Probably soon will be updated
+es:
+  add_platform: |+
+    **➕ Añadir %{platform} a la lista**
+
+    ¿Cuánto pagas por este servicio?
+  started_content: |+
+    **ℹ️ Fecha de suscripción**
+
+    Escribe la fecha de cuando comenzó la suscripción al servicio este mes. Puedes usar el siguiente formato de fecha:
+    __**
+      DD-MM H:M, DD-MM H, DD-MM
+      DD/MM H:M, DD/MM H, DD/MM
+      DD|MM H:M, DD|MM H, DD|MM
+    **__
+  started_success: |+
+    **ℹ️ La fecha ha sido guardada con éxito**
+
+    __**(Opcional)**__  Ahora, porfavor escriba los meses que ha estado usando este servicio
+  started_success_button: ⏭️ Omitir
+  started_failure: |+
+    **❌ Error guardando la fecha**
+
+    Los meses y días deben ser números no letras. Utiliza el formato de fecha correcto.
+  months_failure: |+
+    **❌ Error guardando los meses de uso**
+
+    El valor debe ser entero.
+      **P. ej.** 5 -> __Esto representa 5 meses de servicio pagado__
+  sub_added: |+
+    **✅ %{platform} se agrego a tu lista**
+
+    ¿Deseas realizar otra acción?
+  sub_edited: |+
+    **✅ Suscripción a %{platform} editada con éxito**
+
+    ¿Deseas realizar otra acción?
+  sub_resume_content: |+
+    ⚠️ Acción iniciada previamente
+
+    ¿Deseas continuar con la tarea previa?
+  show_list: 📃 Mostrar lista
+  sub_resume: ⭐ Continuar
+  sub_restart: 🔁 Reiniciar
+  sub_exist: |+
+    **❌ %{platform} ya está en la lista**
+  cancel_content: |+
+    **❌ Tarea Cancelada**
+
+    Gracias por usar @duestrailbot
+    ¿Deseas buscar por otra plataforma?
+  lazy_search: 🔎 Buscar plataforma
+  lazy_all: 👁️ Mostrar plataformas
+  cancel_delete: ⛔ Detener acción
+  failure_button: 🔁 Reintentar
+  cancel_button: ❌ Cancelar
+  not_available: Esta función no está disponible por ahora. Proablemente se actualizará pronto

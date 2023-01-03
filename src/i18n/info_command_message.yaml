@@ -1,0 +1,126 @@
+en:
+  support: 💰 Support me!
+  welcome: >-
+    **🤖 Dues Trail**
+
+
+    This bot will help you to administrate your Streaming and Gaming Subscriptions
+    in order to get a precise number of what you spend passively in a month
+
+
+    **🔎Search**
+
+
+    `@duestrailbot `<streaming/game platform> -> Search for platform to add
+
+    `@duestrailbot !a` -> Show all the available platforms
+
+
+    **🗒️ Functions**
+
+
+    `@duestrailbot !t`  -> Total spends
+
+    `@duestrailbot !p`  -> Spending per platform
+
+
+    **📝 Commands:**
+
+
+    /help - Show this message
+
+    /creator - Show information about the developer
+
+
+    **⚙️ Developed by:**
+
+
+    @mrh0wl
+
+
+    **🌎 Languages:**
+
+
+    English
+
+    Spanish
+  creator: >-
+    **⚙️ Information about the developer**
+
+
+    __**Name:**__ Jackson Blandon
+
+    __**Username:**__ @mrh0wl
+
+
+    __**Description:**__ Hi! I'm the developer of this bot. I'm %{age} years
+    old. I love to code, play chess and play video games. I hope you encounter
+    this bot as a helpful tool in what it pretends to assist.
+
+
+
+    __**Follow me on my social networks so you may know more about me and my
+    projects. Also, you can donate to me I'll be grateful to you. 👇**__
+es:
+  support: 💰 ¡Apoyame!
+  welcome: >-
+    **🤖 Dues Trail**
+
+
+    Este bot te ayudará a encontrar y enumerar todos tus animes favoritos.
+    Echa un vistazo a los comandos a continuación para saber mejor lo que hace.
+
+
+    **🔎 Búsqueda**
+
+
+    `@duestrailbot `<plataforma de streaming/juego> -> Busca por plataformas a agregar
+
+    `@duestrailbot !a` -> Muestra todas las plataformas disponibles
+
+
+    **🗒️ Funciones**
+
+
+    `@duestrailbot !t`  -> Total de gastos
+
+    `@duestrailbot !p`  -> Gasto por plataforma
+
+
+    **📝 Comandos:**
+
+
+    /help - Muestra este mensaje
+
+    /creator - Muestra información sobre el desarrollador
+
+
+    **⚙️ Desarrollado por:**
+
+
+    @mrh0wl
+
+
+    **🌎 Idiomas:**
+
+
+    Inglés
+
+    Español
+  creator: >-
+    **⚙️ Información sobre el desarrollador**
+
+
+    __**Nombre:**__ Jackson Blandon
+
+    __**Usuario:**__ @mrh0wl
+
+
+    __**Descripción:**__ ¡Hola! Soy el desarrollador de este bot, tengo %{age}
+    años, me gusta programar, jugar ajedrez y jugar videojuegos. Espero que este
+    bot te sea útil en lo que pretende ayudar.
+
+
+
+    __**Sígueme en mis redes sociales para que puedas saber más sobre mi y mis
+    proyectos. Además puedes donarme, te estaré muy agradecido.👇**__

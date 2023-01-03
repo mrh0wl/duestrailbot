@@ -1,0 +1,106 @@
+en:
+  year: year
+  years: years
+  month: month
+  months: months
+  day: día
+  search: 🔎 Type to search platforms...
+  result: 📖 Search results
+  sub_edit: 📝 Edit subscription
+  sub_remove: ❌ Remove from the list
+  list: 📃 List of subscriptions
+  list_short: |+
+    Plan: %{plan}
+    Price: %{price}
+  list_content: |+
+    **ℹ️ Information about dues on %{platform}**
+
+    **Monthly dues:** $%{price} (%{plan})
+    **Remaining days:** %{remaining}
+    **Subscription time:** %{sub_time}
+    **Last year's dues:** $%{last_year_dues}
+    **Current year's dues:** $%{current_year_dues}
+    **Total spent:** $%{total_spends}
+  help_title: How to use
+  help_content: |+
+    **🤖Dues Trail**
+
+    You can use this bot in "inline mode" to search for platforms and add it to your spend list.
+    Also, you'll be able to watch your monthly dues information or get information on individual spending.
+
+    **🔎Search**
+    `@duestrailbot <streaming/game platform>` -> Search for platform to add
+
+    `@duestrailbot !a` -> Show all the available platforms
+
+    **🗒️Functions**
+    `@duestrailbot !t`  -> Total spendings
+
+    `@duestrailbot !p`  -> Spending per platform
+  help_preview: Show what the bot does and how to use.
+  donation_title: Support
+  donation_content: >-
+    **🤖Dues Trail**
+
+
+    If you like this bot and want to contribute, you can support me by donating
+    to the links below or if you have BTC wallet, you can donate to the next
+    address:
+
+    `15y7CTsrJeLmJuKzWXT8BVRoxEPXbK4Zp5`
+  donation_preview: Ways to show your appreciation.
+  chat_unavailable: |+
+    ⚠️ Function available only in private chat
+es:
+  year: año
+  years: años
+  month: mes
+  months: meses
+  day: día
+  search: 🔎 Escribe para buscar plataformas...
+  result: 📖 Resultados de búsqueda
+  sub_edit: 📝 Editar suscripción
+  sub_remove: ❌ Remover de la lista
+  list: 📃 Lista de suscripciones
+  list_short: |+
+    Plan: %{plan}
+    Precio: %{price}
+  list_content: |+
+    **ℹ️ Información sobre cuotas en %{platform}**
+
+    **Cuotas mensuales:** $%{price} (%{plan})
+    **Días restantes:** %{remaining}
+    **Tiempo de suscripción:** %{sub_time}
+    **Cuotas del año pasado:** %{last_year_dues}
+    **Cuotas del año actual:** %{current_year_dues}
+    **Total gastado:** %{total_spends}
+  help_title: Como usar
+  help_content: |+
+    **🤖Dues Trail**
+
+    Puedes usar este bot en "inline mode" para buscar plataformas y agregarlas a su lista de gastos.
+    Además, podrás ver la información de sus cuotas mensuales u obtener información sobre gastos individuales.
+
+    **🔎Search**
+    `@duestrailbot <plataforma de streaming/juego>` -> Busca por plataformas a agregar
+
+    `@duestrailbot !a` -> Muestra todas las plataformas disponibles
+
+    **🗒️Functions**
+    `@duestrailbot !t` -> Gastos totales
+
+    `@duestrailbot !p`  -> Gasto por plataforma
+  help_preview: Muestra lo que el bot hace y como usar
+  donation_title: Apoyar
+  donation_content: >-
+    **🤖Dues Trail**
+
+
+    Si te gusta este bot y quieres contribuir, puedes apoyarme haciendo una
+    donación a los enlaces abajo o si tiene una cartera de BTC, puedes donar a
+    la siguiente dirección:
+
+    `15y7CTsrJeLmJuKzWXT8BVRoxEPXbK4Zp5`
+  donation_preview: Maneras para mostrar tu apreciación.
+  chat_unavailable: |+
+    ⚠️ Función disponible solo en chat privado
