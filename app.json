@@ -1,0 +1,25 @@
+{
+	"name": "DuesTrail Bot",
+	"description": "A Telegram bot for track you Subscription platforms.",
+	"repository": "https://github.com/mrh0wl/duestrailbot",
+	"website": "https://github.com/mrh0wl/duestrailbot",
+	"stack": "container",
+	"env": {
+		"API_HASH": {
+			"required": true,
+			"value": "API_HASH Token from your telegram account."
+		},
+		"API_ID": {
+			"required": true,
+			"value": "API_ID Token from your telegram account."
+		},
+		"BOT_TOKEN": {
+			"required": true,
+			"value": "Token from your telegram bot."
+		},
+		"STRING_SESSION": {
+			"required": true,
+			"value": "Name of your bot"
+		}
+	}
+}
