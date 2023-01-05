@@ -54,6 +54,7 @@ Send [commands](https://github.com/mrh0wl/duestrailbot/blob/master/README.md#com
 ## Note
 
 - If you want any help you can ask [here](https://t.me/mrh0wl) or [open an issue](https://github.com/mrh0wl/duestrailbot/issues/new)
+- If you want to see the bot in acion search for [@duestrailbot](https://t.me/duestrailbot) in telegram
 
 ## Credits
 
