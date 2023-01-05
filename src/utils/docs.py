@@ -15,7 +15,7 @@ from pyrogram.types import (InlineKeyboardButton, InlineKeyboardMarkup,
 
 # imports from src
 from src import utils
-from src.models import Payment, PlatformModel, Platforms, Subscription
+from src.models import Payment, PlatformModel, Platforms, Subscription, TotalPay
 from src.services import PaymentDB, UserDB
 
 Subscriptions = list[Subscription]
@@ -66,72 +66,72 @@ class Docs:
             m_c = months % 12
             return f'{y_c} {y}, {m_c} {m}' if y_c > 0 else f'{m_c} {m}'
 
-        def __new__(cls, userDB: UserDB):
+        def get_text(cls, subscription: Subscription, userDB: UserDB, i18n: utils.I18n) -> str:
+            utc = pytz.UTC
+            remaining = (subscription.due_date -
+                         utc.localize(datetime.utcnow())).days
+            months_paid = subscription.months_paid or 0
+            price = subscription.payment.plan.price
+            if remaining <= 0:
+                subscription.start_at = subscription.due_date
+                subscription.due_date += timedelta(30)
+                subscription.months_paid = months_paid + 1
+                discounts = reduce((lambda x, y: x+y), subscription.payment.discounts) if len(
+                    subscription.payment.discounts) else 0
+                extra_fees = reduce((lambda x, y: x+y), subscription.payment.extra_fees) if len(
+                    subscription.payment.extra_fees) else 0
+                total = price + discounts - extra_fees
+                if subscription.payment.total_pay[-1].months < 12:
+                    subscription.payment.total_pay[-1].paid += total
+                else:
+                    subscription.payment.total_pay.append(
+                        TotalPay.fromJson({1: total}))
+                subscription = userDB.subscription(subscription)
+            return i18n.t("list_content", {
+                'platform': subscription.name,
+                'price': price,
+                'plan': subscription.payment.plan.name,
+                'remaining': f'{remaining} {i18n.t("day")}{"" if remaining == 1 else "s"}',
+                'sub_time': cls.__get_sub_time(months=months_paid, i18n=i18n),
+                'last_year_dues': '${:.2f}'.format(subscription.payment.total_pay[-2]) if len(subscription.payment.total_pay) > 1 else 'N/A',
+                'current_year_dues': '${:.2f}'.format(subscription.payment.total_pay[-1]),
+                'total_spends': '${:.2f}'.format(reduce((lambda x, y: x+y), [n.paid for n in subscription.payment.total_pay]))}
+            )
+
+        def __new__(cls, userDB: UserDB, subscription: Subscription = None):
+            user = userDB.getUser()
+            i18n = utils.I18n(user.language, 'inline_query_messages')
             subscriptions: Subscriptions = userDB.listSubscriptions()
             result = []
-            user = userDB.getUser()
-            utc = pytz.UTC
-            i18n = utils.I18n(user.language, 'inline_query_messages')
-            if len(subscriptions) != 0:
-                for subscription in subscriptions:
-                    subscription: Subscription
-                    platform = PlatformModel(
-                        subscription.id.lower(),
-                        i18n
+            if subscription:
+                return cls.get_text(cls, subscription, userDB, i18n)
+
+            for subscription in subscriptions:
+                subscription: Subscription
+                platform = PlatformModel(
+                    subscription.id.lower(),
+                    i18n
+                )
+                text = cls.get_text(cls, subscription, userDB, i18n)
+                result.append(
+                    InlineQueryResultArticle(
+                        title=f"{subscription.name}",
+                        description=i18n.t("list_short", {
+                            "plan": subscription.payment.plan.name,
+                            "price": subscription.payment.plan.price
+                        }),
+                        input_message_content=InputTextMessageContent(
+                            text,
+                            disable_web_page_preview=True,
+                        ),
+                        thumb_url=platform.logo,
+                        reply_markup=InlineKeyboardMarkup(
+                            [[InlineKeyboardButton(text=i18n.t('sub_reload'), callback_data=f'reload_{platform.id}'),
+                                InlineKeyboardButton(text=i18n.t('sub_edit'), callback_data=f'edit_{platform.id}')],
+                                [InlineKeyboardButton(text=i18n.t('sub_remove'), callback_data=f'remove_{platform.id}')]]),
                     )
-                    remaining = (subscription.due_date -
-                                 utc.localize(datetime.utcnow())).days
-                    months_paid = subscription.months_paid or 0
-                    price = subscription.payment.plan.price
-                    if remaining <= 0:
-                        subscription.start_at = subscription.due_date
-                        subscription.due_date += timedelta(30)
-                        subscription.months_paid = months_paid + 1
-                        discounts = reduce((lambda x, y: x+y), subscription.payment.discounts) if len(
-                            subscription.payment.discounts) else 0
-                        extra_fees = reduce((lambda x, y: x+y), subscription.payment.extra_fees) if len(
-                            subscription.payment.extra_fees) else 0
-                        total = price + discounts - extra_fees
-                        if subscription.months_paid % 12 != 0:
-                            subscription.payment.total_pay.append(total)
-                        else:
-                            subscription.payment.total_pay[-1] += total
-                        subscription = userDB.subscription(subscription)
-                    if type(subscription.payment.total_pay) != list or type(subscription.payment.total_pay) != float:
-                        lst_paid = [price for x in range(
-                            int(subscription.months_paid))]
-                        lst_paid2 = [lst_paid[i:i+12]
-                                     for i in range(0, len(lst_paid), 12)]
-                        res = [float('{:.2f}'.format(
-                            reduce((lambda x, y: x+y), elem))) for elem in lst_paid2]
-                        subscription.payment.total_pay = res
-                        subscription = userDB.subscription(subscription)
-                    result.append(
-                        InlineQueryResultArticle(
-                            title=f"{subscription.name}",
-                            description=i18n.t("list_short", {
-                                               "plan": subscription.payment.plan.name,
-                                               "price": price
-                                               }),
-                            input_message_content=InputTextMessageContent(
-                                i18n.t("list_content", {
-                                    'platform': subscription.name,
-                                    'price': price,
-                                    'plan': subscription.payment.plan.name,
-                                    'remaining': f'{remaining} {i18n.t("day")}{"" if remaining == 1 else "s"}',
-                                    'sub_time': cls.__get_sub_time(months=months_paid, i18n=i18n),
-                                    'last_year_dues': '${:.2f}'.format(subscription.payment.total_pay[-2]) if len(subscription.payment.total_pay) > 1 else 'N/A',
-                                    'current_year_dues': '${:.2f}'.format(subscription.payment.total_pay[-1]),
-                                    'total_spends': '${:.2f}'.format(reduce((lambda x, y: x+y), subscription.payment.total_pay))}),
-                                disable_web_page_preview=True,
-                            ),
-                            thumb_url=platform.logo,
-                            reply_markup=InlineKeyboardMarkup(
-                                [[InlineKeyboardButton(text=i18n.t('sub_edit'), callback_data=f'edit_{platform.id}')],
-                                 [InlineKeyboardButton(text=i18n.t('sub_remove'), callback_data=f'remove_{platform.id}')]]),
-                        )
-                    )
-                return result
+                )
+            return result
 
     class SearchText:
         def __getMatch(a: str, b: str, percentage: float = 0.7) -> bool:
