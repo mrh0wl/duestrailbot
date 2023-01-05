@@ -1,19 +1,20 @@
 # import from asyncio
 import asyncio
-from functools import reduce
 from datetime import datetime, timedelta
+from functools import reduce
 
 # imports from pyrogram lib
 from pyrogram import Client, filters
-from pyrogram.handlers import MessageHandler
-from pyrogram.types import CallbackQuery, Message
 from pyrogram.errors.exceptions.bad_request_400 import MessageIdInvalid
+from pyrogram.handlers import MessageHandler
+from pyrogram.types import (CallbackQuery, InlineKeyboardButton,
+                            InlineKeyboardMarkup, Message)
 
 # imports from src
-from src.models import Subscription
-from src.services import UserDB, PaymentDB
-from src.utils.docs import Docs, PlatformMode
+from src.models import Subscription, TotalPay
+from src.services import PaymentDB, UserDB
 from src.utils.date import date_regex
+from src.utils.docs import Docs, PlatformMode
 
 
 class Valid:
@@ -68,13 +69,13 @@ class Callback:
         )
 
         if isValid:
-            months_paid = [
-                self.subscription.payment.plan.price for x in range(int(message.text))]
-            months_lst = [months_paid[i:i+12]
-                          for i in range(0, len(months_paid), 12)]
             self.subscription.months_paid = int(message.text)
-            self.subscription.payment.total_pay = [float('{:.2f}'.format(reduce((lambda x, y: x+y), elem)))
-                                                   for elem in months_lst]
+            months_paid = [
+                self.subscription.payment.plan.price for x in range(self.subscription.months_paid)]
+            months_lst = sorted([months_paid[i:i+12]
+                                for i in range(0, len(months_paid), 12)], key=len)
+            self.subscription.payment.total_pay = [TotalPay([len(elem), float(
+                '{:.2f}'.format(reduce((lambda x, y: x+y), elem)))]) for elem in months_lst]
             self.subscription = self.userDB.subscription(self.subscription)
             if self.subscription.isEditing:
                 self.docs.update(
@@ -261,16 +262,31 @@ class Callback:
                         )
                     )
                 )
+        elif self.callback.data.startswith('reload_'):
+            platform = self.callback.data.split('_')[1]
+            subscription = self.userDB.subscription(
+                Subscription(
+                    id=platform.lower(),
+                )
+            )
+            await self.client.edit_inline_text(
+                self.callback.inline_message_id,
+                text=self.docs.GetSubscriptions(self.userDB, subscription),
+                reply_markup=InlineKeyboardMarkup(
+                    [[InlineKeyboardButton(text=self.docs.i18n.t('sub_reload'), callback_data=f'reload_{platform}'),
+                      InlineKeyboardButton(text=self.docs.i18n.t('sub_edit'), callback_data=f'edit_{platform}')],
+                     [InlineKeyboardButton(text=self.docs.i18n.t('sub_remove'), callback_data=f'remove_{platform}')]])
+            )
         else:
             platform, plan = self.callback.data.split(maxsplit=1)
-            self.subscription = Subscription(
+            subscription = Subscription(
                 id=platform.lower(),
                 payment=PaymentDB(
                     platform=platform.lower(),
                     plan=plan
                 )
             )
-            self.subscription = self.userDB.subscription(self.subscription)
+            self.subscription = self.userDB.subscription(subscription)
             text = self.docs.get_message(mode=PlatformMode.STARTED)
             inline = self.docs.get_inline(mode=PlatformMode.FAILURE)
             await self.client.edit_message_text(
