@@ -1,4 +1,4 @@
-# Telegram Voice-Chat Bot [PyTGCalls] [![Mentioned in Awesome Telegram Calls](https://awesome.re/mentioned-badge-flat.svg)](https://github.com/tgcalls/awesome-tgcalls)
+# Telegram Subscription Bot Tracker
 
 Telegram Subscription Streaming/Gaming platform bot to get your money administered.
 
@@ -54,6 +54,7 @@ Send [commands](https://github.com/mrh0wl/duestrailbot/blob/master/README.md#com
 ## Note
 
 - If you want any help you can ask [here](https://t.me/mrh0wl) or [open an issue](https://github.com/mrh0wl/duestrailbot/issues/new)
+- If you want to see the bot in acion search for [@duestrailbot](https://t.me/duestrailbot) in telegram
 
 ## Credits
 
