@@ -12,10 +12,12 @@ en:
       DD/MM H:M, DD/MM H, DD/MM
       DD|MM H:M, DD|MM H, DD|MM
     **__
+
+    **Note: You should write the date before this month's service subscription ends.**
   started_success: |+
     **ℹ️ The date has been successfully saved**
 
-    __**(Optional)**__ Now, please write the months you have been using this service
+    __**(Optional)**__ Now, please write the months you have been using this service without counting this month to be paid
   started_success_button: ⏭️ Skip
   started_failure: |+
     **❌ Error saving the date**
@@ -64,16 +66,18 @@ es:
   started_content: |+
     **ℹ️ Fecha de suscripción**
 
-    Escribe la fecha de cuando comenzó la suscripción al servicio este mes. Puedes usar el siguiente formato de fecha:
+    Escriba la fecha en que pagó la suscripción al servicio en el último mes. Puedes usar el siguiente formato de fecha:
     __**
       DD-MM H:M, DD-MM H, DD-MM
       DD/MM H:M, DD/MM H, DD/MM
       DD|MM H:M, DD|MM H, DD|MM
     **__
+
+    **Nota: debe escribir la fecha antes de que finalice la suscripción al servicio de este mes.**
   started_success: |+
     **ℹ️ La fecha ha sido guardada con éxito**
 
-    __**(Opcional)**__  Ahora, porfavor escriba los meses que ha estado usando este servicio
+    __**(Opcional)**__  Ahora, por favor escribe los meses que llevas usando este servicio sin contar este mes a pagar
   started_success_button: ⏭️ Omitir
   started_failure: |+
     **❌ Error guardando la fecha**

@@ -6,6 +6,7 @@ en:
   day: día
   search: 🔎 Type to search platforms...
   result: 📖 Search results
+  sub_reload: 🔄️ Reload
   sub_edit: 📝 Edit subscription
   sub_remove: ❌ Remove from the list
   list: 📃 List of subscriptions
@@ -21,6 +22,8 @@ en:
     **Last year's dues:** $%{last_year_dues}
     **Current year's dues:** $%{current_year_dues}
     **Total spent:** $%{total_spends}
+
+    __**Note: If the information was unsuccessfully shown, click on "Reload"**__
   help_title: How to use
   help_content: |+
     **🤖Dues Trail**
@@ -59,6 +62,7 @@ es:
   day: día
   search: 🔎 Escribe para buscar plataformas...
   result: 📖 Resultados de búsqueda
+  sub_reload: 🔄️ Recargar
   sub_edit: 📝 Editar suscripción
   sub_remove: ❌ Remover de la lista
   list: 📃 Lista de suscripciones
@@ -74,6 +78,8 @@ es:
     **Cuotas del año pasado:** %{last_year_dues}
     **Cuotas del año actual:** %{current_year_dues}
     **Total gastado:** %{total_spends}
+
+    __**Nota: Si la información no se mostró correctamente, dale clic en "Recargar"**__
   help_title: Como usar
   help_content: |+
     **🤖Dues Trail**
