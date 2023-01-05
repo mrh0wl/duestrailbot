@@ -69,7 +69,7 @@ class UserDB:
         if self.doc.exists:
             return User.fromJson(self.doc.to_dict())
 
-    def subscription(self, subscription: Subscription) -> None:
+    def subscription(self, subscription: Subscription) -> Subscription:
         doc: DocumentSnapshot = self.subcol.document(subscription.id).get()
         ref: DocumentReference = doc.reference
         if not doc.exists:
@@ -111,5 +111,5 @@ class PaymentDB:
             json = {k: json[k] for k in json if k != 'plans'}
             plans = self.doc.to_dict()['plans']
             if plan is not None:
-                return list([Payment(discounts=json['discounts'], extra_fees=json['extra_fees'], total_pay=v if k == plan else 0, plan=Plan.fromJson({k: v})) for k, v in plans.items() if k == plan])[0]
-            return [Payment(discounts=json['discounts'], extra_fees=json['extra_fees'], total_pay=v, plan=Plan.fromJson({k: v})) for k, v in plans.items()]
+                return list([Payment(discounts=json['discounts'], extra_fees=json['extra_fees'], total_pay=[] if k == plan else 0, plan=Plan.fromJson({k: v})) for k, v in plans.items() if k == plan])[0]
+            return [Payment(discounts=json['discounts'], extra_fees=json['extra_fees'], total_pay=[], plan=Plan.fromJson({k: v})) for k, v in plans.items()]
