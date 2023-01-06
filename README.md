@@ -38,9 +38,12 @@ $ python3 main.py
 
 **_Note: store your JSON file of Firebase Admin SDK ([Setup here](https://firebase.google.com/docs/admin/setup#initialize-sdk)) inside src/services/cred folder, then you should open src/services/firestore.py and edit <credential.json> with the name of your file_**
 
-## Heroku
+## Deploy on Heroku
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/mrh0wl/duestrailbot/tree/master)
+
+### Deploy on Railway
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/I776yL?referralCode=aQLW6q)
 
 Send [commands](https://github.com/mrh0wl/duestrailbot/blob/master/README.md#commands) to bot to help and other info
 
