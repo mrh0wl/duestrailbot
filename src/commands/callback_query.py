@@ -5,7 +5,7 @@ from functools import reduce
 
 # imports from pyrogram lib
 from pyrogram import Client, filters
-from pyrogram.errors.exceptions.bad_request_400 import MessageIdInvalid
+from pyrogram.errors.exceptions.bad_request_400 import MessageIdInvalid, MessageNotModified
 from pyrogram.handlers import MessageHandler
 from pyrogram.types import (CallbackQuery, InlineKeyboardButton,
                             InlineKeyboardMarkup, Message)
@@ -72,8 +72,13 @@ class Callback:
             self.subscription.months_paid = int(message.text)
             months_paid = [
                 self.subscription.payment.plan.price for x in range(self.subscription.months_paid)]
-            months_lst = sorted([months_paid[i:i+12]
-                                for i in range(0, len(months_paid), 12)], key=len)
+            months_lst = [months_paid[i:i+12]
+                          for i in range(0, len(months_paid), 12)]
+            split_lastyear = months_lst[-1][:-datetime.utcnow().month]
+            split_thisyear = months_lst[-1][len(split_lastyear):]
+            months_lst[-1] = split_lastyear
+            months_lst.sort(key=len)
+            months_lst.append(split_thisyear)
             self.subscription.payment.total_pay = [TotalPay([len(elem), float(
                 '{:.2f}'.format(reduce((lambda x, y: x+y), elem)))]) for elem in months_lst]
             self.subscription = self.userDB.subscription(self.subscription)
@@ -269,14 +274,17 @@ class Callback:
                     id=platform.lower(),
                 )
             )
-            await self.client.edit_inline_text(
-                self.callback.inline_message_id,
-                text=self.docs.GetSubscriptions(self.userDB, subscription),
-                reply_markup=InlineKeyboardMarkup(
-                    [[InlineKeyboardButton(text=self.docs.i18n.t('sub_reload'), callback_data=f'reload_{platform}'),
-                      InlineKeyboardButton(text=self.docs.i18n.t('sub_edit'), callback_data=f'edit_{platform}')],
-                     [InlineKeyboardButton(text=self.docs.i18n.t('sub_remove'), callback_data=f'remove_{platform}')]])
-            )
+            try:
+                await self.client.edit_inline_text(
+                    self.callback.inline_message_id,
+                    text=self.docs.GetSubscriptions(self.userDB, subscription),
+                    reply_markup=InlineKeyboardMarkup(
+                        [[InlineKeyboardButton(text=self.docs.i18n.t('sub_reload'), callback_data=f'reload_{platform}'),
+                          InlineKeyboardButton(text=self.docs.i18n.t('sub_edit'), callback_data=f'edit_{platform}')],
+                         [InlineKeyboardButton(text=self.docs.i18n.t('sub_remove'), callback_data=f'remove_{platform}')]])
+                )
+            except MessageNotModified:
+                pass
         else:
             platform, plan = self.callback.data.split(maxsplit=1)
             subscription = Subscription(
