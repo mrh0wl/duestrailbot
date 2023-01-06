@@ -6,15 +6,15 @@ Telegram Subscription Streaming/Gaming platform bot to get your money administer
 
 > ### Telegram requirements
 
-- API_ID and API_HASH from you telegram account (required for [pyrogram](https://docs.pyrogram.org/intro/quickstart)).
+- API_ID and API_HASH from your telegram account (required for [Pyrogram](https://docs.pyrogram.org/intro/quickstart)).
 - A Telegram bot API credentials (check [BotFather](https://t.me/BotFather) to get you API Creds)
 
 > ### Environment requirements
 
-- Tested on Windows and Linux OS (debian and ubuntu)
+- Tested on Windows and Linux OS (Debian and Ubuntu)
 - Python 3.9 or later.
 
-## Run (Assuming you have a debian-based or ubuntu distro)
+## Run (Assuming you have a Debian-based or Ubuntu distro)
 
 **Clone and the repository to your machine:**
 
@@ -33,19 +33,20 @@ pip3 install -U -r requirements.txt
 ```
 
 ```sh
-$ python3 main.py
+python3 main.py
 ```
 
-**_Note: store your JSON file of Firebase Admin SDK ([Setup here](https://firebase.google.com/docs/admin/setup#initialize-sdk)) inside src/services/cred folder, then you should open src/services/firestore.py and edit <credential.json> with the name of your file_**
+**_Note: store your JSON file of Firebase Admin SDK ([Setup here](https://firebase.google.com/docs/admin/setup#initialize-sdk)) inside the 'src/services/cred' folder, then you should open the 'src/services/firestore.py' file and edit <credential.json> with the name of your file_**
 
 ## Deploy on Heroku
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/mrh0wl/duestrailbot/tree/master)
 
 ### Deploy on Railway
+
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/I776yL?referralCode=aQLW6q)
 
-Send [commands](https://github.com/mrh0wl/duestrailbot/blob/master/README.md#commands) to bot to help and other info
+Send [commands](https://github.com/mrh0wl/duestrailbot/blob/master/README.md#commands) to the bot to help and other info
 
 ## Commands
 
@@ -57,7 +58,7 @@ Send [commands](https://github.com/mrh0wl/duestrailbot/blob/master/README.md#com
 ## Note
 
 - If you want any help you can ask [here](https://t.me/mrh0wl) or [open an issue](https://github.com/mrh0wl/duestrailbot/issues/new)
-- If you want to see the bot in acion search for [@duestrailbot](https://t.me/duestrailbot) in telegram
+- If you want to see the bot in action search for [@duestrailbot](https://t.me/duestrailbot) in telegram
 
 ## Credits
 
