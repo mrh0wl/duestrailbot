@@ -2,9 +2,9 @@
 import difflib
 import re
 from datetime import datetime, timedelta
-from functools import reduce
 from enum import Enum
-from typing import Union
+from functools import reduce
+from typing import List, Union, Tuple
 
 import pytz
 # imports from pyrogram lib
@@ -15,11 +15,12 @@ from pyrogram.types import (InlineKeyboardButton, InlineKeyboardMarkup,
 
 # imports from src
 from src import utils
-from src.models import Payment, PlatformModel, Platforms, Subscription, TotalPay
+from src.models import (Payment, PlatformModel, Platforms, Subscription,
+                        TotalPay)
 from src.services import PaymentDB, UserDB
 
-Subscriptions = list[Subscription]
-Payments = Union[Payment, list[Payment]]
+Subscriptions = List[Subscription]
+Payments = Union[Payment, List[Payment]]
 
 
 class classproperty(object):
@@ -82,6 +83,7 @@ class Docs:
                     subscription.payment.extra_fees) else 0
                 total = price + discounts - extra_fees
                 if subscription.payment.total_pay[-1].months < 12:
+                    subscription.payment.total_pay[-1].months += 1
                     subscription.payment.total_pay[-1].paid += total
                 else:
                     subscription.payment.total_pay.append(
@@ -137,7 +139,7 @@ class Docs:
         def __getMatch(a: str, b: str, percentage: float = 0.7) -> bool:
             return difflib.SequenceMatcher(a=a.lower(), b=b.lower()).ratio() > percentage
 
-        def __new__(cls, query: InlineQuery) -> list[InlineQueryResultArticle]:
+        def __new__(cls, query: InlineQuery) -> List[InlineQueryResultArticle]:
             results = dict()
             i18n = utils.I18n(
                 query.from_user.language_code,
@@ -183,7 +185,7 @@ class Docs:
         return cls.__init__(cls.query, cls.i18n_file,
                             **{**cls.arguments, **kwargs})
 
-    def get_default_results(cls) -> list[InlineQueryResultArticle]:
+    def get_default_results(cls) -> List[InlineQueryResultArticle]:
         i18n = cls.i18n.update(filename='inline_query_message')
 
         is_private = enums.ChatType.BOT == cls.query.chat_type
@@ -237,7 +239,7 @@ class Docs:
                 return cls.i18n.t(cls.arguments['failure']['message'])
             return cls.i18n.t(mode.value, {'platform': cls.arguments['platform']} if 'platform' in cls.arguments else {})
 
-    def get_inline_with_message(cls, mode: Union[InfoMode, PlatformMode]) -> tuple[str, InlineQueryResultArticle]:
+    def get_inline_with_message(cls, mode: Union[InfoMode, PlatformMode]) -> Tuple[str, InlineQueryResultArticle]:
         message = cls.get_message(mode)
         inline_markup = cls.__get_info_results(mode)
 

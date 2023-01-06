@@ -1,12 +1,11 @@
 # imports from default libs
 from datetime import datetime
-from collections.abc import Mapping
-from typing import Any
+from typing import Any, List, Mapping
 
 # imports from src
 from .subscription_model import Subscription
 
-Subscriptions = list[Subscription] | None
+Subscriptions = List[Subscription]
 
 
 class User:

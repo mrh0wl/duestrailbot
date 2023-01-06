@@ -1,7 +1,6 @@
 # imports from default libs
 from datetime import datetime
-from collections.abc import Mapping
-from typing import Any
+from typing import Any, Mapping
 
 # imports from models
 from .payment_model import Payment

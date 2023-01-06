@@ -1,8 +1,7 @@
 # imports from default libs
-from collections.abc import Iterable, Mapping
-from typing import Any, List, TypeVar
+from typing import Any, Iterable, List, Mapping, TypeVar
 
-Number = Iterable[TypeVar('Number', int, float)] | None
+Number = Iterable[TypeVar('Number', int, float)]
 
 
 class Plan:
@@ -20,7 +19,7 @@ class Plan:
 
 
 class TotalPay:
-    def __init__(self, total_pay: List[Number] or float):
+    def __init__(self, total_pay: List[Number]):
         self.months = total_pay[0]
         self.paid = total_pay[1]
 
