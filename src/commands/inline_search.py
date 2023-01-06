@@ -53,7 +53,7 @@ async def inline(client: Client, query: InlineQuery) -> None:
                 switch_pm_text = i18n.t('list')
                 userDB = UserDB(message=query)
                 found = docs.GetSubscriptions(userDB)
-                if len(found) != 0:
+                if found and len(found) != 0:
                     count = len(found)
                     switch_pm_text = f"{count} subscription{'s' if count > 1 else ''} found"
                     await query.answer(
