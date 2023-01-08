@@ -76,7 +76,7 @@ class Callback:
                           for i in range(0, len(months_paid), 12)]
             split_lastyear = months_lst[-1][:-datetime.utcnow().month]
             split_thisyear = months_lst[-1][len(split_lastyear):]
-            months_lst[-1] = split_lastyear
+            months_lst[-1] = split_lastyear if split_lastyear else months_lst[-1]
             months_lst.sort(key=len)
             months_lst.append(split_thisyear)
             self.subscription.payment.total_pay = [TotalPay([len(elem), float(
