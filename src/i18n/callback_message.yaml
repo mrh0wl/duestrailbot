@@ -13,11 +13,11 @@ en:
       DD|MM H:M, DD|MM H, DD|MM
     **__
 
-    **Note: You should write the date before this month's service subscription ends.**
+    **Note: You must enter the date of the current active subscription started**
   started_success: |+
     **ℹ️ The date has been successfully saved**
 
-    __**(Optional)**__ Now, please write the months you have been using this service without counting this month to be paid
+    __**(Optional)**__ Now, enter the months you've been using this service including the paid active month.
   started_success_button: ⏭️ Skip
   started_failure: |+
     **❌ Error saving the date**
@@ -73,11 +73,11 @@ es:
       DD|MM H:M, DD|MM H, DD|MM
     **__
 
-    **Nota: debe escribir la fecha antes de que finalice la suscripción al servicio de este mes.**
+    **Nota: Debes escribir la fecha de cuando inició la subscripción activa actual**
   started_success: |+
     **ℹ️ La fecha ha sido guardada con éxito**
 
-    __**(Opcional)**__  Ahora, por favor escribe los meses que llevas usando este servicio sin contar este mes a pagar
+    __**(Opcional)**__  Ahora, escriba los meses que ha estado usando este servicio, incluido el mes activo pagado.
   started_success_button: ⏭️ Omitir
   started_failure: |+
     **❌ Error guardando la fecha**
