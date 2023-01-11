@@ -42,7 +42,7 @@ python3 main.py
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/mrh0wl/duestrailbot/tree/master)
 
-### Deploy on Railway
+## Deploy on Railway
 
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/I776yL?referralCode=aQLW6q)
 
