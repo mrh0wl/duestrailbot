@@ -75,10 +75,11 @@ class Callback:
             months_lst = [months_paid[i:i+12]
                           for i in range(0, len(months_paid), 12)]
             split_lastyear = months_lst[-1][:-datetime.utcnow().month]
-            split_thisyear = months_lst[-1][len(split_lastyear):]
-            months_lst[-1] = split_lastyear
-            months_lst.sort(key=len)
-            months_lst.append(split_thisyear)
+            if split_lastyear:
+                split_thisyear = months_lst[-1][len(split_lastyear):]
+                months_lst[-1] = split_lastyear
+                months_lst.sort(key=len)
+                months_lst.append(split_thisyear)
             self.subscription.payment.total_pay = [TotalPay([len(elem), float(
                 '{:.2f}'.format(reduce((lambda x, y: x+y), elem)))]) for elem in months_lst]
             self.subscription = self.userDB.subscription(self.subscription)

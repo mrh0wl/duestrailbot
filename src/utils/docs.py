@@ -114,25 +114,26 @@ class Docs:
                     subscription.id.lower(),
                     i18n
                 )
-                text = cls.get_text(cls, subscription, userDB, i18n)
-                result.append(
-                    InlineQueryResultArticle(
-                        title=f"{subscription.name}",
-                        description=i18n.t("list_short", {
-                            "plan": subscription.payment.plan.name,
-                            "price": subscription.payment.plan.price
-                        }),
-                        input_message_content=InputTextMessageContent(
-                            text,
-                            disable_web_page_preview=True,
-                        ),
-                        thumb_url=platform.logo,
-                        reply_markup=InlineKeyboardMarkup(
-                            [[InlineKeyboardButton(text=i18n.t('sub_reload'), callback_data=f'reload_{platform.id}'),
-                                InlineKeyboardButton(text=i18n.t('sub_edit'), callback_data=f'edit_{platform.id}')],
-                                [InlineKeyboardButton(text=i18n.t('sub_remove'), callback_data=f'remove_{platform.id}')]]),
+                if not subscription.inPartFilled:
+                    text = cls.get_text(cls, subscription, userDB, i18n)
+                    result.append(
+                        InlineQueryResultArticle(
+                            title=f"{subscription.name}",
+                            description=i18n.t("list_short", {
+                                "plan": subscription.payment.plan.name,
+                                "price": subscription.payment.plan.price
+                            }),
+                            input_message_content=InputTextMessageContent(
+                                text,
+                                disable_web_page_preview=True,
+                            ),
+                            thumb_url=platform.logo,
+                            reply_markup=InlineKeyboardMarkup(
+                                [[InlineKeyboardButton(text=i18n.t('sub_reload'), callback_data=f'reload_{platform.id}'),
+                                    InlineKeyboardButton(text=i18n.t('sub_edit'), callback_data=f'edit_{platform.id}')],
+                                    [InlineKeyboardButton(text=i18n.t('sub_remove'), callback_data=f'remove_{platform.id}')]]),
+                        )
                     )
-                )
             return result
 
     class SearchText:

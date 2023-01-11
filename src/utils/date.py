@@ -70,7 +70,8 @@ def date_regex(text: str) -> Union[float, None]:
 
     day = date_match.group(1)
     month = date_match.group(2)
-    year = datetime.utcnow().year if datetime.utcnow().month != 1 else str(int(datetime.utcnow().year) - 1)
+    validMonth = int(month) == 12 and datetime.utcnow().month == 1
+    year = str(int(datetime.utcnow().year) - 1) if validMonth else datetime.utcnow().year
     hour = time_match.group(1) if time_match.group(1) is not None else '12'
     mins = time_match.group(2) if time_match.group(2) is not None else '00'
     valid_date = datetime.strptime(
