@@ -1,5 +1,5 @@
 # imports from default libs
-from typing import Union
+from typing import Union, List
 
 # imports from firebase
 import firebase_admin
@@ -16,14 +16,14 @@ from pyrogram.types import Message
 from ..models import User, Subscription, Plan, Payment
 
 import os
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'src/services/cred/<credential.json>'
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'src/services/cred/duestrailbot-firebase-adminsdk-v9lol-1e9fde616d.json'
 
 # Application Default credentials are automatically created.
 app = firebase_admin.initialize_app()
 db = firestore.client()
 
-Subscriptions = list[Subscription]
-Payments = Union[Payment, list[Payment]]
+Subscriptions = List[Subscription]
+Payments = Union[Payment, List[Payment]]
 
 
 class UserDB:
