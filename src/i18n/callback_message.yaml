@@ -6,19 +6,11 @@ en:
   started_content: |+
     **ℹ️ Subscription date**
 
-    Write the date when you started the subscription to the service this month. You can use the following date format:
-    __**
-      DD-MM H:M, DD-MM H, DD-MM
-      DD/MM H:M, DD/MM H, DD/MM
-      DD|MM H:M, DD|MM H, DD|MM
-    **__
-
-    **Note: You must enter the date of the current active subscription started**
+    Select when the subscription was last paid
   started_success: |+
     **ℹ️ The date has been successfully saved**
 
-    __**(Optional)**__ Now, enter the months you've been using this service including the paid active month.
-  started_success_button: ⏭️ Skip
+    Now, enter the months you've been using this service including the paid active month.
   started_failure: |+
     **❌ Error saving the date**
 
@@ -66,19 +58,11 @@ es:
   started_content: |+
     **ℹ️ Fecha de suscripción**
 
-    Escriba la fecha en que pagó la suscripción al servicio en el último mes. Puedes usar el siguiente formato de fecha:
-    __**
-      DD-MM H:M, DD-MM H, DD-MM
-      DD/MM H:M, DD/MM H, DD/MM
-      DD|MM H:M, DD|MM H, DD|MM
-    **__
-
-    **Nota: Debes escribir la fecha de cuando inició la subscripción activa actual**
+    Seleccione cuándo se pagó la suscripción por última vez
   started_success: |+
     **ℹ️ La fecha ha sido guardada con éxito**
 
-    __**(Opcional)**__  Ahora, escriba los meses que ha estado usando este servicio, incluido el mes activo pagado.
-  started_success_button: ⏭️ Omitir
+    Ahora, escriba los meses que ha estado usando este servicio, incluido el mes activo pagado.
   started_failure: |+
     **❌ Error guardando la fecha**
 

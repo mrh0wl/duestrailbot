@@ -5,7 +5,7 @@ from functools import reduce
 
 # imports from pyrogram lib
 from pyrogram import Client, filters
-from pyrogram.errors.exceptions.bad_request_400 import MessageIdInvalid, MessageNotModified
+from pyrogram.errors.exceptions.bad_request_400 import MessageNotModified
 from pyrogram.handlers import MessageHandler
 from pyrogram.types import (CallbackQuery, InlineKeyboardButton,
                             InlineKeyboardMarkup, Message)
@@ -13,7 +13,7 @@ from pyrogram.types import (CallbackQuery, InlineKeyboardButton,
 # imports from src
 from src.models import Subscription, TotalPay
 from src.services import PaymentDB, UserDB
-from src.utils.date import date_regex
+from src.utils.calendar.detailed import CalendarFormat, DTGCalendar
 from src.utils.docs import Docs, PlatformMode
 
 
@@ -41,7 +41,7 @@ class Callback:
         self.user = self.userDB.getUser()
         self.subscription = Subscription()
         loop = asyncio.new_event_loop()
-        if isinstance(message, CallbackQuery):
+        if self.callback:
             loop.run_until_complete(self.callback_handler())
         loop.close()
 
@@ -110,51 +110,35 @@ class Callback:
             reply_markup=inline
         )
 
-    async def __set_start_at(self, client: Client, message: Message, count: int = 0):
-        isValid: datetime = date_regex(message.text)
-        if not isValid:
-            self.docs.update(**{
-                'failure': {
-                    'message': 'started_failure',
-                    'callback': {
-                        'fail': f'start_at {self.subscription.id.lower()}',
-                    }
-                }
-            })
-        text, inline = self.docs.get_inline_with_message(
-            mode=PlatformMode.SUCCESS
-            if isValid
-            else PlatformMode.FAILURE
-        )
-
-        if count == 0:
-            message_ids[self.user.chat_id] = message.id
-
-        try:
-            await client.edit_message_text(
-                chat_id=message.chat.id,
-                message_id=message.id - 1,
+    async def calendar_handler(self):
+        result, key, step = DTGCalendar(platform=self.subscription.id, plan=self.subscription.payment.plan.name).process(self.callback.data)
+        if not result and key:
+            await self.client.edit_message_text(
+                self.callback.message.chat.id,
+                self.callback.message.id,
+                f"Select {CalendarFormat.LSTEP.value[step.value]}",
+                reply_markup=InlineKeyboardMarkup(key)
+            )
+        elif result:
+            text, inline = self.docs.get_inline_with_message(
+                mode=PlatformMode.SUCCESS)
+            await self.client.edit_message_text(
+                chat_id=self.callback.message.chat.id,
+                message_id=self.callback.message.id,
                 text=text,
                 reply_markup=inline
             )
-            await client.delete_messages(message.chat.id, message.id + count)
-            if isValid:
-                self.subscription.start_at = isValid
-                self.subscription.due_date = isValid + timedelta(days=30)
-                client.remove_handler(*self.handler)
-                self.userDB.subscription(self.subscription)
-                self.handler = client.add_handler(
-                    MessageHandler(
-                        self.__set_months_paid,
-                        filters.chat(self.user.chat_id) & filters.text & self.months_paid(
-                            Valid(state=True))
-                    )
+            validDate = datetime.strptime(f'{result} 6', '%Y-%m-%d %H')
+            self.subscription.start_at = validDate
+            self.subscription.due_date = validDate + timedelta(days=30)
+            self.userDB.subscription(self.subscription)
+            self.handler = self.client.add_handler(
+                MessageHandler(
+                    self.__set_months_paid,
+                    filters.chat(self.user.chat_id) & filters.text & self.months_paid(
+                        Valid(state=True))
                 )
-            else:
-                client.remove_handler(*self.handler)
-        except MessageIdInvalid:
-            message.id -= 1
-            await self.__set_start_at(client, message, count+1)
+            )
 
     async def callback_handler(self) -> None:
         if self.callback.data == 'cancel':
@@ -206,9 +190,31 @@ class Callback:
                 reply_markup=inline,
             )
 
-        elif self.callback.data.split()[0] in ['months_paid', 'start_at']:
+        elif self.callback.data.startswith('cbcal'):
+            params = self.callback.data.split('_')
+            platform, plan = (params[1], params[2])
+            if len(params) == 3:
+                text = self.docs.get_message(mode=PlatformMode.STARTED)
+                calendar, step = DTGCalendar(platform, plan).build()
+                await self.client.edit_message_text(
+                    self.callback.message.chat.id,
+                    self.callback.message.id,
+                    text=f"Select {CalendarFormat.LSTEP.value[step.value]}",
+                    reply_markup=InlineKeyboardMarkup(calendar)
+                )
+            else:
+                subscription = Subscription(
+                    id=platform.lower(),
+                    payment=PaymentDB(
+                        platform=platform.lower(),
+                        plan=plan
+                    )
+                )
+                self.subscription = self.userDB.subscription(subscription)
+                await self.calendar_handler()
+        elif self.callback.data.split()[0] == 'months_paid':
             text, inline = self.docs.get_inline_with_message(
-                mode=PlatformMode.SUCCESS if self.callback.data.startswith('months_paid') else PlatformMode.STARTED)
+                mode=PlatformMode.SUCCESS)
             self.docs.update(**{})
             try:
                 self.valid = Valid()
@@ -218,8 +224,7 @@ class Callback:
                 self.subscription = self.userDB.subscription(self.subscription)
                 self.handler = self.client.add_handler(
                     MessageHandler(
-                        self.__set_start_at if self.callback.data.split(
-                        )[0] == 'start_at' else self.__set_months_paid,
+                        self.__set_months_paid,
                         (
                             filters.chat(self.user.chat_id) &
                             filters.text &
@@ -286,34 +291,3 @@ class Callback:
                 )
             except MessageNotModified:
                 pass
-        else:
-            platform, plan = self.callback.data.split(maxsplit=1)
-            subscription = Subscription(
-                id=platform.lower(),
-                payment=PaymentDB(
-                    platform=platform.lower(),
-                    plan=plan
-                )
-            )
-            self.subscription = self.userDB.subscription(subscription)
-            text = self.docs.get_message(mode=PlatformMode.STARTED)
-            inline = self.docs.get_inline(mode=PlatformMode.FAILURE)
-            await self.client.edit_message_text(
-                chat_id=self.user.chat_id,
-                message_id=self.message.id,
-                text=text,
-                reply_markup=inline
-            )
-            try:
-                self.valid = Valid()
-            except TypeError:
-                self.handler = self.client.add_handler(
-                    MessageHandler(
-                        self.__set_start_at,
-                        (
-                            filters.chat(self.user.chat_id) &
-                            filters.text &
-                            self.started_date(Valid(state=True))
-                        )
-                    )
-                )

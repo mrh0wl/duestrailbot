@@ -62,7 +62,7 @@ class UserDB:
             self.ref.set(user.toJson())
 
         for k, v in user.toJson().items():
-            if v != self.doc.to_dict()[k] and k != 'started_at':
+            if v and v != self.doc.to_dict()[k] and k != 'started_at':
                 self.ref.update({k: v})
 
     def getUser(self):

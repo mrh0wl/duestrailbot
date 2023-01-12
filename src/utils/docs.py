@@ -289,7 +289,7 @@ class Docs:
                 cls.arguments['id'].lower(), None)
             inlineButtons = [InlineKeyboardButton(
                 text=f'{paymentDB[i].plan.name}: ${paymentDB[i].plan.price}',
-                callback_data=f'{cls.arguments["id"].lower()} {paymentDB[i].plan.name}')
+                callback_data=f'cbcal_{cls.arguments["id"].lower()}_{paymentDB[i].plan.name}')
                 for i in range(0, len(paymentDB))]
             inlineButtonsMatrix = [inlineButtons[i:i+3]
                                    for i in range(0, len(inlineButtons), 3)]
@@ -302,8 +302,7 @@ class Docs:
             ])
         elif mode == PlatformMode.SUCCESS:
             inline_markup = InlineKeyboardMarkup([
-                [inline_skip_button,
-                 inline_cancel_button]
+                [inline_cancel_button]
             ])
         elif mode == PlatformMode.FAILURE:
             inline_buttons = [[inline_cancel_button]]

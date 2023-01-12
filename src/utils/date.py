@@ -54,8 +54,7 @@ def calculate_age(born: Union[int, str]) -> int:
 
 
 def date_regex(text: str) -> Union[float, None]:
-    date_re = r'^(0?[1-9]|[12][0-9]|3[01])[|\\/-](0[1-9]|1[012])$'
-    time_re = r'^([0-1]?[0-9]|2[0-3]):?([0-5][0-9])?$'
+    date_re = r'^((?:20)\d\d)-(0?[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])$'
     split_date = text.split()
 
     if not re.search(date_re, split_date[0]):
@@ -63,18 +62,10 @@ def date_regex(text: str) -> Union[float, None]:
 
     date_match = re.match(date_re,
                           split_date[0])
-    time_match = re.match(time_re,
-                          split_date[1]
-                          if len(split_date) == 2
-                          else '12:00')
 
-    day = date_match.group(1)
-    month = date_match.group(2)
-    validMonth = int(month) == 12 and datetime.utcnow().month == 1
-    year = str(int(datetime.utcnow().year) - 1) if validMonth else datetime.utcnow().year
-    hour = time_match.group(1) if time_match.group(1) is not None else '12'
-    mins = time_match.group(2) if time_match.group(2) is not None else '00'
-    valid_date = datetime.strptime(
-        f'{day}-{month}-{year} {hour}:{mins}:00', '%d-%m-%Y %H:%M:%S')
+    year = date_match.group(1)
+    day = date_match.group(2)
+    month = date_match.group(3)
+    valid_date = datetime.strptime(f'{day}-{month}-{year} 6', '%d-%m-%Y %H')
 
     return valid_date

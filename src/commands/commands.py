@@ -1,12 +1,12 @@
 # imports from pyrogram lib
 from pyrogram import Client, filters, idle
 from pyrogram.handlers import (CallbackQueryHandler, InlineQueryHandler,
-                               MessageHandler, DisconnectHandler)
+                               MessageHandler)
 
+from .callback_query import Callback
 # imports from src
 from .info_commands import creator, start
 from .inline_search import inline
-from .callback_query import Callback
 
 
 async def disconnect(client):
@@ -52,11 +52,6 @@ class Commands(Client):
             MessageHandler(
                 Callback,
                 (filters.inline_keyboard & filters.private)
-            )
-        )
-        self.add_handler(
-            DisconnectHandler(
-                disconnect
             )
         )
 
