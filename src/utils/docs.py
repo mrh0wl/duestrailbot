@@ -336,7 +336,7 @@ class Docs:
             ])
         elif mode == PlatformMode.CONTINUE:
             inline_markup = InlineKeyboardMarkup([
-                [InlineKeyboardButton(text=cls.i18n.t('sub_resume'), callback_data=f'{cls.arguments["callback_data"]} {cls.arguments["id"]}'),
+                [InlineKeyboardButton(text=cls.i18n.t('sub_resume'), callback_data=f'{cls.arguments["callback_data"]}_{cls.arguments["id"]}_{cls.arguments["plan"]}'),
                  InlineKeyboardButton(text=cls.i18n.t('sub_restart'), callback_data=f'remove_{cls.arguments["id"]}')],
             ])
         return inline_markup

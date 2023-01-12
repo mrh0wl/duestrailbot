@@ -1,5 +1,6 @@
 # import from asyncio
 import asyncio
+import re
 from datetime import datetime, timedelta
 from functools import reduce
 
@@ -52,13 +53,14 @@ class Callback:
         return filters.create(func, valid=valid)
 
     async def __set_months_paid(self, client: Client, message: Message, count: int = 0):
-        isValid = message.text.isdigit()
+        match_regex = re.match(r'(\d+)', message.text.strip())
+        isValid = match_regex.group(1) if match_regex else None
         self.docs.update(**{
             'failure': {
                 'message': 'months_failure',
                 'callback': {
                     'skip': 'skipped_months',
-                    'fail': f'months_paid {self.subscription.id.lower()}',
+                    'fail': f'months-paid {self.subscription.id.lower()}',
                 }
             }
         })
@@ -69,7 +71,7 @@ class Callback:
         )
 
         if isValid:
-            self.subscription.months_paid = int(message.text)
+            self.subscription.months_paid = int(isValid)
             months_paid = [
                 self.subscription.payment.plan.price for x in range(self.subscription.months_paid)]
             months_lst = [months_paid[i:i+12]
@@ -167,7 +169,9 @@ class Callback:
             self.subscription.id = platform
             self.subscription = self.userDB.subscription(self.subscription)
             args = {'platform': self.subscription.name,
-                    'id': self.subscription.id}
+                    'id': self.subscription.id,
+                    'plan': self.subscription.payment.plan.name
+                    }
             self.docs.update(**args)
             partFilled = self.subscription.inPartFilled
             if partFilled:
@@ -212,7 +216,7 @@ class Callback:
                 )
                 self.subscription = self.userDB.subscription(subscription)
                 await self.calendar_handler()
-        elif self.callback.data.split()[0] == 'months_paid':
+        elif self.callback.data.split('_')[0] == 'months-paid':
             text, inline = self.docs.get_inline_with_message(
                 mode=PlatformMode.SUCCESS)
             self.docs.update(**{})
@@ -220,7 +224,7 @@ class Callback:
                 self.valid = Valid()
             except TypeError:
                 self.subscription = Subscription(
-                    id=self.callback.data.split()[1].lower())
+                    id=self.callback.data.split('_')[1].lower())
                 self.subscription = self.userDB.subscription(self.subscription)
                 self.handler = self.client.add_handler(
                     MessageHandler(
