@@ -14,7 +14,7 @@ from pyrogram.types import (CallbackQuery, InlineKeyboardButton,
 # imports from src
 from src.models import Subscription, TotalPay
 from src.services import PaymentDB, UserDB
-from src.utils.calendar.detailed import CalendarFormat, DTGCalendar
+from src.utils.calendar.detailed import DTGCalendar
 from src.utils.docs import Docs, PlatformMode
 
 
@@ -113,12 +113,17 @@ class Callback:
         )
 
     async def calendar_handler(self):
-        result, key, step = DTGCalendar(platform=self.subscription.id, plan=self.subscription.payment.plan.name).process(self.callback.data)
+        result, key, step = DTGCalendar(
+            platform=self.subscription.id,
+            plan=self.subscription.payment.plan.name,
+            locale=self.user.language,
+        ).process(self.callback.data)
         if not result and key:
+            text = self.docs.get_message(mode=PlatformMode.STARTED)
             await self.client.edit_message_text(
-                self.callback.message.chat.id,
-                self.callback.message.id,
-                f"Select {CalendarFormat.LSTEP.value[step.value]}",
+                chat_id=self.callback.message.chat.id,
+                message_id=self.callback.message.id,
+                text=text,
                 reply_markup=InlineKeyboardMarkup(key)
             )
         elif result:
@@ -169,8 +174,7 @@ class Callback:
             self.subscription.id = platform
             self.subscription = self.userDB.subscription(self.subscription)
             args = {'platform': self.subscription.name,
-                    'id': self.subscription.id,
-                    }
+                    'id': self.subscription.id}
             self.docs.update(**args)
             partFilled = self.subscription.inPartFilled
             if partFilled:
@@ -198,11 +202,11 @@ class Callback:
             platform, plan = (params[1], params[2])
             if len(params) == 3:
                 text = self.docs.get_message(mode=PlatformMode.STARTED)
-                calendar, step = DTGCalendar(platform, plan).build()
+                calendar, step = DTGCalendar(platform, plan, locale=self.user.language).build()
                 await self.client.edit_message_text(
                     self.callback.message.chat.id,
                     self.callback.message.id,
-                    text=f"Select {CalendarFormat.LSTEP.value[step.value]}",
+                    text=text,
                     reply_markup=InlineKeyboardMarkup(calendar)
                 )
             else:
