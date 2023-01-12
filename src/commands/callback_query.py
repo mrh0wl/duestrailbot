@@ -170,7 +170,6 @@ class Callback:
             self.subscription = self.userDB.subscription(self.subscription)
             args = {'platform': self.subscription.name,
                     'id': self.subscription.id,
-                    'plan': self.subscription.payment.plan.name
                     }
             self.docs.update(**args)
             partFilled = self.subscription.inPartFilled
