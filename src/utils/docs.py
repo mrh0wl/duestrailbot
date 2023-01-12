@@ -107,14 +107,13 @@ class Docs:
             result = []
             if subscription:
                 return cls.get_text(cls, subscription, userDB, i18n)
-
             for subscription in subscriptions:
                 subscription: Subscription
                 platform = PlatformModel(
                     subscription.id.lower(),
                     i18n
                 )
-                if not subscription.inPartFilled:
+                if subscription.inPartFilled not in ['cbcal', 'months-paid', None]:
                     text = cls.get_text(cls, subscription, userDB, i18n)
                     result.append(
                         InlineQueryResultArticle(
@@ -285,8 +284,7 @@ class Docs:
             ])
 
         elif mode == PlatformMode.ACTION:
-            paymentDB: Payments = PaymentDB(
-                cls.arguments['id'].lower(), None)
+            paymentDB: Payments = PaymentDB(cls.arguments['id'].lower(), None)
             inlineButtons = [InlineKeyboardButton(
                 text=f'{paymentDB[i].plan.name}: ${paymentDB[i].plan.price}',
                 callback_data=f'cbcal_{cls.arguments["id"].lower()}_{paymentDB[i].plan.name}')
@@ -335,8 +333,11 @@ class Docs:
                  InlineKeyboardButton(text=cls.i18n.t(showall), switch_inline_query_current_chat='!a')],
             ])
         elif mode == PlatformMode.CONTINUE:
+            call = cls.arguments["callback_data"]
+            platform = cls.arguments["id"]
+            plan = UserDB(id=cls.query.from_user.id).subscription(Subscription(platform)).payment.plan.name
             inline_markup = InlineKeyboardMarkup([
-                [InlineKeyboardButton(text=cls.i18n.t('sub_resume'), callback_data=f'{cls.arguments["callback_data"]}_{cls.arguments["id"]}_None'),
-                 InlineKeyboardButton(text=cls.i18n.t('sub_restart'), callback_data=f'remove_{cls.arguments["id"]}')],
+                [InlineKeyboardButton(text=cls.i18n.t('sub_resume'), callback_data=f'{call}_{platform}_{plan}'),
+                 InlineKeyboardButton(text=cls.i18n.t('sub_restart'), callback_data=f'remove_{platform}')],
             ])
         return inline_markup
