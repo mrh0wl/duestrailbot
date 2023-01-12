@@ -35,19 +35,19 @@ class Subscription:
     @property
     def isEmpty(self) -> bool:
         for attr, value in self.__dict__.items():
-            if value is None and attr != 'months-paid':
+            if value is None and attr != 'months_paid':
                 return True
         return False
 
     @property
-    def inPartFilled(self) -> bool:
+    def inPartFilled(self):
         if self.__dict__['payment'] is None:
             return None
         elif self.__dict__['start_at'] is None or self.__dict__['due_date'] is None:
             return 'cbcal'
         elif self.__dict__['months_paid'] is None:
             return 'months-paid'
-        return None
+        return False
 
     def toJson(self) -> Mapping[str, Any]:
         return {
