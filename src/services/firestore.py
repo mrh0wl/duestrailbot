@@ -32,7 +32,7 @@ class UserDB:
                  id: int = None,
                  subscription: Subscription = None
                  ) -> None:
-        self.id = message.from_user.id or id
+        self.id = message.from_user.id if hasattr(message, 'from_user') else id
         self.message = message
         self.firestore: Client = db.collection(u'users')
         self.doc: DocumentSnapshot = self.firestore.document(
@@ -48,22 +48,23 @@ class UserDB:
                    if self.doc.exists
                    else message.from_user.id)
 
-        user = User(
-            chat_id=chat_id,
-            username=message.from_user.username,
-            first_name=message.from_user.first_name,
-            last_name=message.from_user.last_name,
-            language=message.from_user.language_code,
-            started_at=firestore.SERVER_TIMESTAMP,
-            last_message=firestore.SERVER_TIMESTAMP,
-        )
+        if message:
+            user = User(
+                chat_id=chat_id,
+                username=message.from_user.username,
+                first_name=message.from_user.first_name,
+                last_name=message.from_user.last_name,
+                language=message.from_user.language_code,
+                started_at=firestore.SERVER_TIMESTAMP,
+                last_message=firestore.SERVER_TIMESTAMP,
+            )
 
-        if not self.doc.exists:
-            self.ref.set(user.toJson())
+            if not self.doc.exists:
+                self.ref.set(user.toJson())
 
-        for k, v in user.toJson().items():
-            if v and v != self.doc.to_dict()[k] and k != 'started_at':
-                self.ref.update({k: v})
+            for k, v in user.toJson().items():
+                if v and v != self.doc.to_dict()[k] and k != 'started_at':
+                    self.ref.update({k: v})
 
     def getUser(self):
         if self.doc.exists:
@@ -110,6 +111,6 @@ class PaymentDB:
             json = self.doc.to_dict()
             json = {k: json[k] for k in json if k != 'plans'}
             plans = self.doc.to_dict()['plans']
-            if plan is not None:
+            if plan not in [None, 'None']:
                 return list([Payment(discounts=json['discounts'], extra_fees=json['extra_fees'], total_pay=[] if k == plan else 0, plan=Plan.fromJson({k: v})) for k, v in plans.items() if k == plan])[0]
             return [Payment(discounts=json['discounts'], extra_fees=json['extra_fees'], total_pay=[], plan=Plan.fromJson({k: v})) for k, v in plans.items()]
